@@ -6,7 +6,7 @@ char *
            int size = 0;                                                                                                        
            char *p = NULL;                                                                                                      
            va_list ap;
-           }
+       }
 int _printf(const char *format, ...);
 int _putchar(char ch);
 
