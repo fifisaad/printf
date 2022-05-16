@@ -1,50 +1,83 @@
+#include <unistd.h>
 #include "holberton.h"
+#include <stdio.h>
 
 /**
- * _printf - prints formatted data to stdout
- * @format: string that contains the format to print
- * Return: number of characters written
+ * buffer_print - print given buffer to stdout
+ * @buffer: buffer to print
+ * @nbytes: number of bytes to print
+ *
+ * Return: nbytes
  */
-int _printf(char *format, ...)
+int buffer_print(char buffer[], unsigned int nbytes)
 {
-	int written = 0, (*structype)(char *, va_list);
-	char q[3];
-	va_list pa;
+	write(1, buffer, nbytes);
+	return (nbytes);
+}
 
-	if (format == NULL)
-		return (-1);
-	q[2] = '\0';
-	va_start(pa, format);
-	_putchar(-1);
-	while (format[0])
+/**
+ * buffer_add - adds a string to buffer
+ * @buffer: buffer to fill
+ * @str: str to add
+ * @buffer_pos: pointer to buffer first empty position
+ *
+ * Return: if buffer filled and emptyed return number of printed char
+ * else 0
+ */
+int buffer_add(char buffer[], char *str, unsigned int *buffer_pos)
+{
+	int i = 0;
+	unsigned int count = 0, pos = *buffer_pos, size = BUFFER_SIZE;
+
+	while (str && str[i])
 	{
-		if (format[0] == '%')
+		if (pos == size)
 		{
-			structype = driver(format);
-			if (structype)
-			{
-				q[0] = '%';
-				q[1] = format[1];
-				written += structype(q, pa);
-			}
-			else if (format[1] != '\0')
-			{
-				written += _putchar('%');
-				written += _putchar(format[1]);
-			}
-			else
-			{
-				written += _putchar('%');
-				break;
-			}
-			format += 2;
+			count += buffer_print(buffer, pos);
+			pos = 0;
+		}
+		buffer[pos++] = str[i++];
+	}
+	*buffer_pos = pos;
+	return (count);
+}
+
+/**
+ * _printf - produces output according to a format
+ * @format: character string
+ *
+ * Return: the number of characters printed excluding the null byte
+ * used to end output to strings
+ */
+int _printf(const char *format, ...)
+{
+	va_list ap;
+	unsigned int i = 0, buffer_pos = 0, count = 0;
+	char *res_str, *aux, buffer[BUFFER_SIZE];
+
+	if (!format || !format[0])
+		return (-1);
+	va_start(ap, format);
+	aux = malloc(sizeof(char) * 2);
+	while (format && format[i])
+	{
+		if (format[i] == '%')
+		{
+			res_str = treat_format(format, &i, ap);
+			count += buffer_add(buffer, res_str, &buffer_pos);
+			free(res_str);
 		}
 		else
 		{
-			written += _putchar(format[0]);
-			format++;
+			aux[0] = format[i++];
+			aux[1] = '\0';
+			count += buffer_add(buffer, aux, &buffer_pos);
 		}
 	}
-	_putchar(-2);
-	return (written);
+	count += buffer_print(buffer, buffer_pos);
+	free(aux);
+	va_end(ap);
+	if (!count)
+		count = -1;
+	return (count);
 }
