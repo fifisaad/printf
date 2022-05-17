@@ -1,5 +1,5 @@
-#ifndef _FUNCTION_PRINTF_H_
-#define _FUNCTION_PRINTF_H_
+#ifndef _MAIN_H_
+#define _MAIN_H_
 #include <stdarg.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,5 +26,7 @@ typedef struct modifier
 
 int _putchar(char c);
 int _printf(const char *format, ...);
-
+char *print_unsigned_int(modifier_t *, va_list);
+char *print_string(modifier_t *modif, va_list ap);
+char *print_rot(modifier_t *, va_list ap);
 #endif
