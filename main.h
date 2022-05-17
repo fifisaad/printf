@@ -1,32 +1,44 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
-#include <stdarg.h>
-#include <stdlib.h>
+#include <limits.h>
 #include <stdio.h>
+#include "main.h"
 
 /**
- * struct modifier - mofifier fields collection
- * @flags: flags field composed of ['0', ' ', '#', '+', '-']
- * @width: width field, positive number
- * @precision: precision field positive number not including '.'
- * or -1 for '*'
- * @length: length field string composed of ['h', 'l']
- * @specifier: specifier character can one of
- * ['c', 's', '%', 'd', 'i', 'b', 'u', 'o', 'x', 'X', 'S', 'p', 'r', 'R']
+ * main - Entry point
  *
+ * Return: Always 0
  */
-typedef struct modifier
+int main(void)
 {
-	char *flags;
-	int width;
-	int precision;
-	char *length;
-	char specifier;
-} modifier_t;
+    int len;
+    int len2;
+    unsigned int ui;
+    void *addr;
 
-int _putchar(char c);
-int _printf(const char *format, ...);
-char *print_unsigned_int(modifier_t *, va_list);
-char *print_string(modifier_t *modif, va_list ap);
-char *print_rot(modifier_t *, va_list ap);
-#endif
+    len = _printf("Let's try to printf a simple sentence.\n");
+    len2 = printf("Let's try to printf a simple sentence.\n");
+    ui = (unsigned int)INT_MAX + 1024;
+    addr = (void *)0x7ffe637541f0;
+    _printf("Length:[%d, %i]\n", len, len);
+    printf("Length:[%d, %i]\n", len2, len2);
+    _printf("Negative:[%d]\n", -762534);
+    printf("Negative:[%d]\n", -762534);
+    _printf("Unsigned:[%u]\n", ui);
+    printf("Unsigned:[%u]\n", ui);
+    _printf("Unsigned octal:[%o]\n", ui);
+    printf("Unsigned octal:[%o]\n", ui);
+    _printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+    printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
+    _printf("Character:[%c]\n", 'H');
+    printf("Character:[%c]\n", 'H');
+    _printf("String:[%s]\n", "I am a string !");
+    printf("String:[%s]\n", "I am a string !");
+    _printf("Address:[%p]\n", addr);
+    printf("Address:[%p]\n", addr);
+    len = _printf("Percent:[%%]\n");
+    len2 = printf("Percent:[%%]\n");
+    _printf("Len:[%d]\n", len);
+    printf("Len:[%d]\n", len2);
+    _printf("Unknown:[%r]\n");
+    printf("Unknown:[%r]\n");
+    return (0);
+}
