@@ -12,7 +12,7 @@ int _printf(const char * format, ...)
 {
 	int i, p;
 	va_list args;
-	void (*c)(va_list);
+	void (*f)(va_list);
 
 	va_start(args, format);
 	i = 0;
@@ -20,8 +20,8 @@ int _printf(const char * format, ...)
 	{
 		if (format[i] == '%')
 		{
-			c = get_func(format[i + 1]);
-			s = c(args);	
+			f = get_func(format[i + 1]);
+			p = f(args);	
 
 
 
