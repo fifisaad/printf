@@ -1,8 +1,5 @@
-#include <stdarg.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include "main.h"
-#include <stddef.h>
 
 /**
  * _printf - recreates the printf function
@@ -15,7 +12,7 @@ int _printf(const char * format, ...)
 {
 	int i, p;
 	va_list args;
-	void (*f)(va_list);
+	void (*c)(va_list);
 
 	va_start(args, format);
 	i = 0;
@@ -23,8 +20,8 @@ int _printf(const char * format, ...)
 	{
 		if (format[i] == '%')
 		{
-			f = get_func(format[i + 1]);
-			p = f(args);	
+			c = get_func(format[i + 1]);
+			s = c(args);	
 
 
 
