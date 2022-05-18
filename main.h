@@ -1,29 +1,22 @@
+#ifndef my_printf
+#define my_printf
 #include <stdio.h>
 #include <stdarg.h>
 
-void simple_printf(const char *fmt, ...)
+/**
+ * struct specifier - struct specifier
+ * @valid: the valid character.
+ * @f: the functions associated.
+ *
+ */
+typedef struct specifier
 {
-    va_list args;
-    va_start(args, fmt);
-
-    while (*fmt != '\0') {
-        if (*fmt == 'd') {
-            int i = va_arg(args, int);
-            printf( "%d\n", i ) ;
-        } else if (*fmt == 'c') {
-            int c = va_arg(args, int);
-            printf( "%c\n", (char)c ) ;
-        } else if (*fmt == 'f') {
-            double d = va_arg(args, double);
-            printf( "%f\n", d ) ;
-        }
-        ++fmt;
-    }
-
-    va_end(args);
-}
-
-int main()
-{
-    simple_printf("dcff", 3, 'a', 1.999, 42.5); 
-}
+	char *valid;
+	void(*f)();
+} spec;
+int _printf(const char *format, ...);
+int print_c(va_list list);
+int print_s(va_list list);
+int print_percent(va_list list);
+int _putchar(char c);
+#endif
